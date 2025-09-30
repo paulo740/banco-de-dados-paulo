@@ -1,4 +1,3 @@
-,
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,20 +9,23 @@
     <section id="formulário">
         <h2>formulário</h2>
         <form id="form-contato">
-            <label for="nome">Nome:</label>
+         <label for="nome">Nome:</label>
             <input type="text" id="nome" required />
 
             <label for="email">Email:</label>
             <input type="email" id="email" required />
            
-            <label for="telefone">telefone:</label>
-            <input type="telefone" id="telefone" required />
+            <label for="mensagem">Mensagem:</label>
+            <input type="mensagem" id="mensagem" required />
             
             <button type="submit">Enviar</button>
         </form>
     </section>
 <style>
-
+    
+h2{   
+    font-family: "Arial", sans-serif;
+}
 
  section {
     padding: 40px;
