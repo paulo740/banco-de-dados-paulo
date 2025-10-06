@@ -1,11 +1,11 @@
 <?php
-include "conexao.php";
+include_once 'conexao.php';
 if(isset($_POST['cadastra'])){
     $nome  = mysqli_real_escape_string($conexao, $_POST['nome']);
     $email = mysqli_real_escape_string($conexao, $_POST['email']);
     $msg   = mysqli_real_escape_string($conexao, $_POST['msg']);
 
-    $sql = "INSERT INTO usuario (nome, email, mensagem) VALUES ('$nome', '$email', '$msg')";
+    $sql = "INSERT INTO paulo (nome, email, mensagem) VALUES ('$nome', '$email', '$msg')";
     mysqli_query($conexao, $sql) or die("Erro ao inserir dados: " . mysqli_error($conexao));
     header("Location: mural.php");
     exit;
@@ -56,9 +56,9 @@ $(document).ready(function() {
 </div>
 
 <?php
-$seleciona = mysqli_query($conexao, "SELECT * FROM usuario ORDER BY id DESC");
+$seleciona = mysqli_query($conexao, "SELECT * FROM paulo ORDER BY id DESC");
 while($res = mysqli_fetch_assoc($seleciona)){
-    echo '<ul class="usuario">';
+    echo '<ul class="paulo">';
     echo '<li><strong>ID:</strong> ' . $res['id'] . '</li>';
     echo '<li><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</li>';
     echo '<li><strong>Email:</strong> ' . htmlspecialchars($res['email']) . '</li>';
@@ -82,8 +82,33 @@ while($res = mysqli_fetch_assoc($seleciona)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>oi</h1>
+<body background=https://wallpapers.com/images/hd/ben-10-background-26hfehbl3yjuhmx4.jpg>
+   <style>
+
+ h1{
+    font-family: "Arial", sans-serif;
+    text-align:center;
+ }
+
+ section {
+    padding: 40px;
+    text-align: center;
+ }
+
+ section {
+    padding: 40px;
+    text-align: center;
+}
+
+ form{
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+ }
+
+   </style>
 
 </body>
 </html>

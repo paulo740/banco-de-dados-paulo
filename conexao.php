@@ -4,7 +4,7 @@
 $host    = "localhost";   // normalmente não precisa alterar
 $usuario = "root";        // substituir se seu usuário não for root
 $senha   = "";            // substituir se você tiver senha no MySQL
-$banco   = "paulo-projeto-apps";       // substituir pelo nome do seu banco criado no phpMyAdmin
+$banco   = "paulo";       // substituir pelo nome do seu banco criado no phpMyAdmin
 
 // Conexão MySQLi
 $conexao = mysqli_connect($host, $usuario, $senha, $banco);
@@ -15,9 +15,4 @@ if (!$conexao) {
 
 // SENSITIVE CASE suportar acentos e Ç
 mysqli_set_charset($conexao, "utf8");
-?>
-<?php
-include "conexao.php"; // inclui o arquivo de conexão
-
-$result = mysqli_query($conexao, "SELECT * FROM pedidos"); // exemplo de consulta
 ?>
