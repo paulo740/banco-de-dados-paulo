@@ -13,7 +13,7 @@ if(isset($_POST['atualiza'])){
     exit;
 }
 
-// Excluir recado
+
 if(isset($_GET['acao']) && $_GET['acao'] == 'excluir'){
     $id = intval($_GET['id']);
     mysqli_query($conexao, "DELETE FROM paulo WHERE id=$id") or die("Erro ao deletar: " . mysqli_error($conexao));
@@ -21,7 +21,6 @@ if(isset($_GET['acao']) && $_GET['acao'] == 'excluir'){
     exit;
 }
 
-// Editar recado
 $editar_id = isset($_GET['acao']) && $_GET['acao'] == 'editar' ? intval($_GET['id']) : 0;
 $recado_editar = null;
 if($editar_id){
@@ -36,11 +35,11 @@ if($editar_id){
 <title>Moderar pedidos</title>
 <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
+<body background=https://i.pinimg.com/originals/5f/24/d9/5f24d9a65bf84f13200bc6f549d56b1a.jpg>
 <div id="main">
 <div id="geral">
 <div id="header">
-    <h1>Mural de pedidos</h1>
+    <h1>MURAL DE PEDIDOS</h1>
 </div>
 
 <?php if($recado_editar): ?>
@@ -80,5 +79,31 @@ if(mysqli_num_rows($seleciona) <= 0){
 </div>
 </div>
 </div>
+
+
+<style>
+
+::marker{
+    text-align:center;
+    padding: 40px;
+}
+
+h1{
+    text-align:center;
+    padding: 40px;
+}
+
+.paulo{
+    text-align:center;
+   
+}
+
+p{
+    text-align:center;
+   
+}
+
+</style>
+
 </body>
 </html>

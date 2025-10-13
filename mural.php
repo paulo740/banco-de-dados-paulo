@@ -82,22 +82,31 @@ while($res = mysqli_fetch_assoc($seleciona)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body background=https://wallpapers.com/images/hd/ben-10-background-26hfehbl3yjuhmx4.jpg>
+<body background=https://img.freepik.com/fotos-gratis/boletim-de-papel-template-suave_1258-167.jpg>
+
+   
    <style>
 
+
  h1{
+    padding: 40px;
     font-family: "Arial", sans-serif;
     text-align:center;
+    color:white;
+  
+ }
+
+ section {
+       
+    padding: 40px;
+    text-align: center;
+    color:white;
  }
 
  section {
     padding: 40px;
     text-align: center;
- }
-
- section {
-    padding: 40px;
-    text-align: center;
+    color:white;
 }
 
  form{
@@ -107,6 +116,7 @@ while($res = mysqli_fetch_assoc($seleciona)){
     flex-direction: column;
     gap: 10px;
  }
+
 
    </style>
 

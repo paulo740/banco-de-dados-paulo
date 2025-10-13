@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>formulário</title>
 </head>
-<body background="https://static.vecteezy.com/ti/vetor-gratis/p1/8138249-simples-branco-ondulado-forma-fundo-em-um-estilo-minimalista-dinamico-onda-torcida-ilustracao-decorativa-vetor.jpg">>
+<body background="https://static.vecteezy.com/ti/vetor-gratis/p1/8138249-simples-branco-ondulado-forma-fundo-em-um-estilo-minimalista-dinamico-onda-torcida-ilustracao-decorativa-vetor.jpg">
     <section id="formulário">
         <h2>formulário</h2>
         <form id="form-contato">
