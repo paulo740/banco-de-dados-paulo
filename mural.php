@@ -14,6 +14,9 @@ if(isset($_POST['cadastra'])){
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<head>
+      <link rel="stylesheet" href="style.css">
+    </head>
 <meta charset="utf-8"/>
 <title>Mural de pedidos</title>
 <link rel="stylesheet" href="style.css"/>
@@ -37,6 +40,7 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
+    <div id="manga">
 <div id="main">
 <div id="geral">
 <div id="header">
@@ -82,17 +86,19 @@ while($res = mysqli_fetch_assoc($seleciona)){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body background=https://img.freepik.com/fotos-gratis/boletim-de-papel-template-suave_1258-167.jpg>
+<body background="https://img.freepik.com/fotos-gratis/fundo-texturizado-abstrato_1258-30506.jpg?semt=ais_hybrid&w=740&q=80">
 
-   
+</div>
    <style>
-
+ li{
+    text-align:center;
+}
 
  h1{
     padding: 40px;
     font-family: "Arial", sans-serif;
     text-align:center;
-    color:white;
+    color:black;
   
  }
 
@@ -111,12 +117,25 @@ while($res = mysqli_fetch_assoc($seleciona)){
 
  form{
     max-width: 400px;
-    margin: auto;
     display: flex;
+    margin: auto;
     flex-direction: column;
     gap: 10px;
  }
 
+
+
+ li{
+     text-align: center;
+ }
+
+  img{
+  float: right;
+  }
+   body{
+    text-align: center;
+   } 
+  
 
    </style>
 
