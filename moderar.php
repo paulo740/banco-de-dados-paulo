@@ -1,6 +1,5 @@
 <?php
 require_once 'conexao.php';
-
 if(isset($_POST['atualiza'])){
     $idatualiza = intval($_POST['id']);
     $nome       = mysqli_real_escape_string($conexao, $_POST['nome']);

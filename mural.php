@@ -15,14 +15,14 @@ if (isset($_POST['cadastra'])) {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
 <meta charset="utf-8"/>
 <title>Mural de pedidos</title>
 <link rel="stylesheet" href="style.css"/>
 <script src="scripts/jquery.js"></script>
 <script src="scripts/jquery.validate.js"></script>
 
-<style>
-
+<style> 
 
 li{
     text-align:center;
@@ -81,7 +81,9 @@ img.spiderman {
     height: 230px;
     width: 340px;
 }
+
 </style>
+
 
 <script>
 $(document).ready(function() {
