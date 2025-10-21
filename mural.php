@@ -1,6 +1,7 @@
 <?php
 include_once 'conexao.php';
-if(isset($_POST['cadastra'])){
+
+if (isset($_POST['cadastra'])) {
     $nome  = mysqli_real_escape_string($conexao, $_POST['nome']);
     $email = mysqli_real_escape_string($conexao, $_POST['email']);
     $msg   = mysqli_real_escape_string($conexao, $_POST['msg']);
@@ -14,14 +15,74 @@ if(isset($_POST['cadastra'])){
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<head>
-      <link rel="stylesheet" href="style.css">
-    </head>
 <meta charset="utf-8"/>
 <title>Mural de pedidos</title>
 <link rel="stylesheet" href="style.css"/>
 <script src="scripts/jquery.js"></script>
 <script src="scripts/jquery.validate.js"></script>
+
+<style>
+
+
+li{
+    text-align:center;
+}
+
+body {
+    background-image: url('https://img.freepik.com/fotos-gratis/boletim-de-papel-template-suave_1258-167.jpg');
+    background-size: cover;
+    font-family: "Arial", sans-serif;
+    color: white;
+}
+
+h1 {
+    padding: 40px;
+    text-align: center;
+    color: blue;
+
+}
+
+#formulario_mural {
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1em;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+img.spiderman {
+    display: block;
+    margin: 20px auto;
+    height: 230px;
+    width: 340px;
+}
+</style>
+
 <script>
 $(document).ready(function() {
     $("#mural").validate({
@@ -39,105 +100,39 @@ $(document).ready(function() {
 });
 </script>
 </head>
+
 <body>
-    <div id="manga">
-<div id="main">
-<div id="geral">
-<div id="header">
-    <h1>Mural de pedidos</h1>
-</div>
+    <h1>Mural de Pedidos</h1>
 
-<div id="formulario_mural">
-<form id="mural" method="post">
-    <label>Nome:</label>
-    <input type="text" name="nome"/><br/>
-    <label>Email:</label>
-    <input type="text" name="email"/><br/>
-    <label>Mensagem:</label>
-    <textarea name="msg"></textarea><br/>
-    <input type="submit" value="Publicar no Mural" name="cadastra" class="btn"/>
-</form>
-</div>
+    <img src="https://artpoin.com/wp-content/uploads/2022/08/homem-aranha-com-contorno1.png" class="spiderman">
 
-<?php
-$seleciona = mysqli_query($conexao, "SELECT * FROM paulo ORDER BY id DESC");
-while($res = mysqli_fetch_assoc($seleciona)){
-    echo '<ul class="paulo">';
-    echo '<li><strong>ID:</strong> ' . $res['id'] . '</li>';
-    echo '<li><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</li>';
-    echo '<li><strong>Email:</strong> ' . htmlspecialchars($res['email']) . '</li>';
-    echo '<li><strong>Mensagem:</strong> ' . nl2br(htmlspecialchars($res['mensagem'])) . '</li>';
-    echo '</ul>';
-}
-?>
+    <div id="formulario_mural">
+        <form id="mural" method="post">
+            <label>Nome:</label>
+            <input type="text" name="nome" required />
 
-<div id="footer">
+            <label>Email:</label>
+            <input type="email" name="email" required />
 
-</div>
-</div>
-</div>
-</body>
-</html>
+            <label>Mensagem:</label>
+            <textarea name="msg" required></textarea>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body background="https://img.freepik.com/fotos-gratis/fundo-texturizado-abstrato_1258-30506.jpg?semt=ais_hybrid&w=740&q=80">
+            <input type="submit" value="Publicar no Mural" name="cadastra" class="btn"/>
+        </form>
+    </div>
 
-</div>
-   <style>
- li{
-    text-align:center;
-}
+    <hr style="margin:40px 0;">
 
- h1{
-    padding: 40px;
-    font-family: "Arial", sans-serif;
-    text-align:center;
-    color:black;
-  
- }
-
- section {
-       
-    padding: 40px;
-    text-align: center;
-    color:white;
- }
-
- section {
-    padding: 40px;
-    text-align: center;
-    color:white;
-}
-
- form{
-    max-width: 400px;
-    display: flex;
-    margin: auto;
-    flex-direction: column;
-    gap: 10px;
- }
-
-
-
- li{
-     text-align: center;
- }
-
-  img{
-  float: right;
-  }
-   body{
-    text-align: center;
-   } 
-  
-
-   </style>
-
+    <?php
+    $seleciona = mysqli_query($conexao, "SELECT * FROM paulo ORDER BY id DESC");
+    while ($res = mysqli_fetch_assoc($seleciona)) {
+        echo '<ul class="paulo">';
+        echo '<li><strong>ID:</strong> ' . $res['id'] . '</li>';
+        echo '<li><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</li>';
+        echo '<li><strong>Email:</strong> ' . htmlspecialchars($res['email']) . '</li>';
+        echo '<li><strong>Mensagem:</strong> ' . nl2br(htmlspecialchars($res['mensagem'])) . '</li>';
+        echo '</ul>';
+    }
+    ?>
 </body>
 </html>
