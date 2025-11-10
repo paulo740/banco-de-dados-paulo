@@ -1,0 +1,58 @@
+
+li{
+    text-align:center;
+}
+
+body {
+    background-image: url('https://img.freepik.com/fotos-gratis/boletim-de-papel-template-suave_1258-167.jpg');
+    background-size: cover;
+    font-family: "Arial", sans-serif;
+    color: white;
+}
+
+h1 {
+    padding: 40px;
+    text-align: center;
+    color: blue;
+
+}
+
+#formulario_mural {
+    text-align: center;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1em;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+img.spiderman {
+    display: block;
+    margin: 20px auto;
+    height: 230px;
+    width: 340px;
+}
