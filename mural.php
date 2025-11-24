@@ -1,90 +1,89 @@
 <?php
-include_once 'conexao.php';
+include "conexao.php"; // Aqui já tem conexão MySQL + variáveis do Cloudinary ($cloud_name, $api_key, $api_secret)
+// ==========================
+// Inserir novo produto
+// ==========================
+if(isset($_POST['cadastra'])){
+    // Pegando os dados do formulário (tratamento contra SQL Injection)
+    $nome = mysqli_real_escape_string($conexao, $_POST['nome']);
+    $descricao = mysqli_real_escape_string($conexao, $_POST['descricao']);
+    $preco = floatval($_POST['preco']);
+    $imagem_url = ""; // Inicializa a variável que vai guardar a URL da imagem
+    // --------------------------
+    // Upload da imagem para Cloudinary
+    // --------------------------
+    if(isset($_FILES['imagem']) && $_FILES['imagem']['error'] == 0){
+        $cfile = new CURLFile($_FILES['imagem']['tmp_name'], $_FILES['imagem']['type'], $_FILES['imagem']['name']);
 
-if (isset($_POST['cadastra'])) {
-    $nome  = mysqli_real_escape_string($conexao, $_POST['nome']);
-    $email = mysqli_real_escape_string($conexao, $_POST['email']);
-    $msg   = mysqli_real_escape_string($conexao, $_POST['msg']);
+        $timestamp = time();
+        $string_to_sign = "timestamp=$timestamp$api_secret";
+        $signature = sha1($string_to_sign);
 
-    $sql = "INSERT INTO paulo (nome, email, mensagem) VALUES ('$nome', '$email', '$msg')";
-    mysqli_query($conexao, $sql) or die("Erro ao inserir dados: " . mysqli_error($conexao));
+        $data = [
+            'file' => $cfile,
+            'timestamp' => $timestamp,
+            'api_key' => $api_key,
+            'signature' => $signature,
+         ];
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloud_name/image/upload");
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        if($response === false){ die("Erro no cURL: " . curl_error($ch)); }
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+        if(isset($result['secure_url'])){
+            $imagem_url = $result['secure_url'];
+        } else {
+            die("Erro no upload: " . print_r($result, true));
+        }
+    }
+
+    // ==========================
+    // Inserindo no banco de dados
+    // ==========================
+    if($imagem_url != ""){
+        $sql = "INSERT INTO produtos (nome, descricao, preco, imagem_url) VALUES ('$nome', '$descricao', $preco, '$imagem_url')";
+        mysqli_query($conexao, $sql) or die("Erro ao inserir: " . mysqli_error($conexao));
+    }
+
+    // ==========================
+    // REDIRECIONAMENTO
+    // ==========================
     header("Location: mural.php");
     exit;
 }
+
+/* 
+==================================================
+COMPARAÇÃO COM O CÓDIGO DE "ANTIGOxCLOUDINARY"
+==================================================
+- Tabela usada: recados (nome, email, mensagem)
+- Campos do formulário: nome, email, msg
+- Não tem upload de imagem, nem Cloudinary
+- Inserção SQL: INSERT INTO recados (nome, email, mensagem)
+- Validação adicional no front-end usando jQuery Validate
+- Exibição: <ul> ao invés de <div>, apenas texto, sem preço ou imagem
+- Código mais simples e voltado a mensagens
+==================================================
+*/
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
 <meta charset="utf-8"/>
-<title>Mural de pedidos</title>
+<title>Mural de Produtos</title>
 <link rel="stylesheet" href="style.css"/>
+
+<!--
+COMPARAÇÃO: No código ANTIGO/pedidos havia jQuery + jQuery Validate
 <script src="scripts/jquery.js"></script>
 <script src="scripts/jquery.validate.js"></script>
-
-<style> 
-
-li{
-    text-align:center;
-}
-
-body {
-    background-image: url('https://img.freepik.com/fotos-gratis/boletim-de-papel-template-suave_1258-167.jpg');
-    background-size: cover;
-    font-family: "Arial", sans-serif;
-    color: white;
-}
-
-h1 {
-    padding: 40px;
-    text-align: center;
-    color: blue;
-
-}
-
-#formulario_mural {
-    text-align: center;
-}
-
-form {
-    max-width: 400px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-input, textarea {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-size: 1em;
-}
-
-.btn {
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
-    border: none;
-    padding: 10px;
-    border-radius: 8px;
-    transition: background 0.3s;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
-img.spiderman {
-    display: block;
-    margin: 20px auto;
-    height: 230px;
-    width: 340px;
-}
-
-</style>
-
-
 <script>
 $(document).ready(function() {
     $("#mural").validate({
@@ -101,40 +100,67 @@ $(document).ready(function() {
     });
 });
 </script>
+-->
 </head>
-
 <body>
-    <h1>Mural de Pedidos</h1>
+<div id="main">
+    <div id="geral">
+        <div id="header">
+            <h1>Mural de Produtos</h1>
+        </div>
 
-    <img src="https://artpoin.com/wp-content/uploads/2022/08/homem-aranha-com-contorno1.png" class="spiderman">
+        <!-- ==========================
+        FORMULÁRIO
+        ========================== -->
+        <div id="formulario_mural">
+            <form id="mural" method="post" enctype="multipart/form-data">
+                <label>Nome do produto:</label>
+                <input type="text" name="nome" required/>
 
-    <div id="formulario_mural">
-        <form id="mural" method="post">
-            <label>Nome:</label>
-            <input type="text" name="nome" required />
+                <label>Descrição:</label>
+                <textarea name="descricao" required></textarea>
 
-            <label>Email:</label>
-            <input type="email" name="email" required />
+                <label>Preço:</label>
+                <input type="number" step="0.01" name="preco" required/>
 
-            <label>Mensagem:</label>
-            <textarea name="msg" required></textarea>
+                <label>Imagem:</label>
+                <input type="file" name="imagem" accept="image/*" required/>
 
-            <input type="submit" value="Publicar no Mural" name="cadastra" class="btn"/>
-        </form>
+                <input type="submit" value="Cadastrar Produto" name="cadastra" class="btn"/>
+            </form>
+        </div>
+
+        <!-- ==========================
+        LISTA DE PRODUTOS
+        ========================== -->
+        <div class="produtos-container">
+        <?php
+        $seleciona = mysqli_query($conexao, "SELECT * FROM produtos ORDER BY id DESC");
+        while($res = mysqli_fetch_assoc($seleciona)){
+            echo '<div class="produto">';
+            echo '<p><strong>ID:</strong> ' . $res['id'] . '</p>';
+            echo '<p><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</p>';
+            echo '<p><strong>Preço:</strong> R$ ' . number_format($res['preco'], 2, ',', '.') . '</p>';
+            echo '<p><strong>Descrição:</strong> ' . nl2br(htmlspecialchars($res['descricao'])) . '</p>';
+            echo '<img src="' . htmlspecialchars($res['imagem_url']) . '" alt="' . htmlspecialchars($res['nome']) . '">';
+            echo '</div>';
+        }
+
+        /*
+        COMPARAÇÃO: Código antigo x cloudinary
+        - Exibe em <ul class="recados"> cada recado
+        - Mostra nome, email e mensagem
+        - Não há imagem, preço ou descrição longa
+        */
+
+        ?>
+        </div>
+
+        <div id="footer">
+            <p>Mural - Cloudinary & PHP</p>
+            <!-- No código anterior, o footer estava vazio -->
+        </div>
     </div>
-
-    <hr style="margin:40px 0;">
-
-    <?php
-    $seleciona = mysqli_query($conexao, "SELECT * FROM paulo ORDER BY id DESC");
-    while ($res = mysqli_fetch_assoc($seleciona)) {
-        echo '<ul class="paulo">';
-        echo '<li><strong>ID:</strong> ' . $res['id'] . '</li>';
-        echo '<li><strong>Nome:</strong> ' . htmlspecialchars($res['nome']) . '</li>';
-        echo '<li><strong>Email:</strong> ' . htmlspecialchars($res['email']) . '</li>';
-        echo '<li><strong>Mensagem:</strong> ' . nl2br(htmlspecialchars($res['mensagem'])) . '</li>';
-        echo '</ul>';
-    }
-    ?>
+</div>
 </body>
-</html>
+</html>      
